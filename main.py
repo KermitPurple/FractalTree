@@ -8,13 +8,14 @@ def main():
     pygame.display.set_caption("Fractal Tree")
     size = Point(650, 650)
     screen = pygame.display.set_mode(size)
-    tree = FractalTree(45, 5);
+    tree = FractalTree(screen, 45, 5);
     running = True
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
         screen.fill(0)
+        tree.draw(Point(size.x / 2, size.y / 2), -90, size.x / 4)
         pygame.display.update()
 
 
