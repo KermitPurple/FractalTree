@@ -9,14 +9,17 @@ def main():
     size = Point(650, 650)
     screen = pygame.display.set_mode(size)
     tree = FractalTree(screen, 45, 1, 2);
-    running = True
-    while running:
+    while tree.running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                running = False
-        screen.fill(0)
-        tree.draw(Point(size.x / 2, size.y), -90, size.x // 2)
-        pygame.display.update()
+                tree.running = False
+            if event.type == pygame.KEYDOWN:
+                tree.kbin(event.key)
+        if tree.update:
+            print("test")
+            screen.fill(0)
+            tree.draw(Point(size.x / 2, size.y), -90, size.x // 2)
+            pygame.display.update()
 
 
 if __name__ == "__main__":

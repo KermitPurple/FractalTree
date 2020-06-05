@@ -11,6 +11,8 @@ class FractalTree:
         self.offset_angle = offset_angle
         self.min_length = min_length
         self.length_divisor = length_divisor
+        self.running = True
+        self.update = True
 
     def draw(self, point: Point, angle: float, length: int) -> None:
         """ Draws the fractal tree recursively
@@ -19,6 +21,7 @@ class FractalTree:
         :length: int, how long the next line will be
         :returns: None
         """
+        self.update = False
         x = np.round(np.cos(angle / 180 * np.pi) * length) + point.x
         y = np.round(np.sin(angle / 180 * np.pi) * length) + point.y
         new_point = Point(x, y)
@@ -26,6 +29,22 @@ class FractalTree:
             pygame.draw.line(self.screen, (255, 255, 255), point, new_point)
             self.draw(new_point, angle + self.offset_angle, length // self.length_divisor)
             self.draw(new_point, angle - self.offset_angle, length // self.length_divisor)
+
+    def kbin(self, key):
+        self.update = True
+        if key == pygame.K_UP:
+            self.length_divisor -= 0.2
+        elif key == pygame.K_DOWN:
+            self.length_divisor += 0.2
+        elif key == pygame.K_LEFT:
+            self.offset_angle -= 2
+        elif key == pygame.K_RIGHT:
+            self.offset_angle += 2
+        elif key == pygame.K_q:
+            self.running = False
+        else:
+            self.update = False
+
 
     @staticmethod
     def distance(p1: Point, p2: Point) -> int:
