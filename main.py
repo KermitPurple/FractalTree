@@ -21,6 +21,5 @@ def main():
             tree.draw(Point(size.x / 2, size.y), -90, size.x // 2)
             pygame.display.update()
 
-
 if __name__ == "__main__":
     main()
