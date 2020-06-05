@@ -6,11 +6,12 @@ Point = collections.namedtuple("Point", ["x", "y"])
 
 class FractalTree:
     """Used to draw a binary fractal tree with pygame"""
-    def __init__(self, screen, offset_angle: float, min_length: int, length_divisor: float):
+    def __init__(self, screen, offset_angle: float, min_length: int, length_divisor: float, size: Point):
         self.screen = screen
         self.offset_angle = offset_angle
         self.min_length = min_length
         self.length_divisor = length_divisor
+        self.size = size
         self.running = True
         self.update = True
 
@@ -26,16 +27,18 @@ class FractalTree:
         y = np.round(np.sin(angle / 180 * np.pi) * length) + point.y
         new_point = Point(x, y)
         if FractalTree.distance(point, new_point) > self.min_length:
-            pygame.draw.line(self.screen, (255, 255, 255), point, new_point)
+            if not((point.x > self.size.x and point.y > self.size.y and point.x < 0 and point.y < 0) and
+                    (new_point.x > self.size.x and new_point.y > self.size.y and new_point.x < 0 and new_point.y < 0)):
+                pygame.draw.line(self.screen, (255, 255, 255), point, new_point)
             self.draw(new_point, angle + self.offset_angle, length // self.length_divisor)
             self.draw(new_point, angle - self.offset_angle, length // self.length_divisor)
 
     def kbin(self, key):
         self.update = True
         if key == pygame.K_UP:
-            self.length_divisor -= 0.2
+            self.length_divisor -= 0.1
         elif key == pygame.K_DOWN:
-            self.length_divisor += 0.2
+            self.length_divisor += 0.1
         elif key == pygame.K_LEFT:
             self.offset_angle -= 2
         elif key == pygame.K_RIGHT:

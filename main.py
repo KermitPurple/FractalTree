@@ -9,7 +9,7 @@ def main():
     pygame.key.set_repeat(5)
     size = Point(650, 650)
     screen = pygame.display.set_mode(size)
-    tree = FractalTree(screen, 45, 1, 2);
+    tree = FractalTree(screen, 90, 1, 2, size);
     while tree.running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
